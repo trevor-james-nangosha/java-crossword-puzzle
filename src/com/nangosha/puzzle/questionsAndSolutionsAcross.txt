@@ -1,0 +1,15 @@
+1/fancy computer word for build/implement
+4/multi-part loop/for
+6/test first/extreme
+10/Method's answer/return
+11/Prepcode-esque/pseudocode
+13/change/cast
+15/the big toolkit/api
+17/an array unit/element
+18/instance or local/variable
+20/automatic toolkit/java-lang
+22/looks like a primitive, but/Integer
+25/un-castable/boolean
+26/math Method/random
+28/converter Method/parseint
+29/leave early/break

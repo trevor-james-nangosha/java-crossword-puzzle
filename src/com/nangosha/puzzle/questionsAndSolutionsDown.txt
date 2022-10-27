@@ -1,0 +1,16 @@
+2/increment type/pre
+3/class's work horse/method
+5/pre is a type of ________/operator
+6/for's iteration ________/expression
+7/establish first value/initialise
+8/while or for/loop
+9/update an instance variable/set
+12/towards blastoff/decrement
+14/a cycle/iteration
+16/talkative package/java/io
+19/Method messenger(abbrev)/arg
+21/asif/virtual
+23/add after/post
+24/Pi house/math
+26/Complete it and __________/run
+27/++quantity/one
