@@ -31,27 +31,40 @@ public class CrosswordPuzzle extends Grid{
         {1,0,30,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0},
     };
 
-    HashMap<String, String> questionsDown, questionsAcross = new HashMap<String, String>();
-    HashMap<String, String> solutionsAcross, solutionsDown = new HashMap<String, String>();
+    HashMap<String, String> questionsAcross = new HashMap<String, String>();
+    HashMap<String, String> questionsDown = new HashMap<String, String>();
+
+    HashMap<String, String> solutionsAcross = new HashMap<String, String>();
+    HashMap<String, String> solutionsDown = new HashMap<String, String>();
+
 
     public CrosswordPuzzle(int rows, int columns){
         super(rows, columns);
-        this.gridMatrix = new Grid[rows][columns];
         this.fillable = false;
         this.PATH_ACROSS = "/home/nangosha/Desktop/CrosswordPuzzle/src/com/nangosha/puzzle/questionsAndSolutionsAcross.txt";
         this.PATH_DOWN = "/home/nangosha/Desktop/CrosswordPuzzle/src/com/nangosha/puzzle/questionsAndSolutionsDown.txt";
+        
+        // this.createPuzzle(rows, columns, gridMatrix);
+        // this.allocateNeighbors(rows, columns, gridMatrix);
+        
+        this.getAcrossQuestionsAndAnswers(this.PATH_ACROSS);
+        this.getDownQuestionsAndAnswers(this.PATH_DOWN);
+        this.gridMatrix = this.init(rows, columns);
 
-        createPuzzle(rows, columns, gridMatrix);
-        allocateNeighbors(rows, columns, gridMatrix);
-
-        getAcrossQuestionsAndAnswers(this.PATH_ACROSS);
-        getDownQuestionsAndAnswers(this.PATH_DOWN);
-
-        assignLettersToGrids(rows, columns, gridMatrix);
+        // this.assignLettersToGrids(rows, columns, gridMatrix);
 
     }
 
-    void createPuzzle(int rows, int columns, Grid[][] matrix){
+    Grid[][] init(int rows, int columns){
+        Grid[][] matrix = new Grid[rows][columns];
+        Grid[][] firstMatrix = createPuzzle(rows, columns, matrix);
+        Grid[][] secondMatrix = allocateNeighbors(rows, columns, firstMatrix);
+        Grid[][] matrixWithLetters = assignLettersToGrids(rows, columns, secondMatrix);
+
+        return matrixWithLetters;
+    }
+
+    private Grid[][] createPuzzle(int rows, int columns, Grid[][] matrix){
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 matrix[i][j] = new Grid(1, 1);
@@ -66,9 +79,11 @@ public class CrosswordPuzzle extends Grid{
                 }
             }
         }
+
+        return matrix;
     }
 
-    void allocateNeighbors(int rows, int columns, Grid[][] matrix){
+    private Grid[][] allocateNeighbors(int rows, int columns, Grid[][] matrix){
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 /* ------- neighbor bottom and top allocation logic ---------- */
@@ -88,9 +103,11 @@ public class CrosswordPuzzle extends Grid{
                 }
             }
         }
+
+        return matrix;
     }
 
-    void assignLettersToGrids(int rows, int columns, Grid[][] matrix){
+    private Grid[][] assignLettersToGrids(int rows, int columns, Grid[][] matrix){
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 Grid currentGrid = matrix[i][j];
@@ -112,9 +129,11 @@ public class CrosswordPuzzle extends Grid{
                 }
             }
         }
+
+        return matrix;
     }
 
-    void assignLettersAcross(Grid grid, String word){
+    private void assignLettersAcross(Grid grid, String word){
         String[] letters = word.split("");
         grid.letter = letters[0];
 
@@ -127,7 +146,7 @@ public class CrosswordPuzzle extends Grid{
         }
     }
 
-    void assignLettersDown(Grid grid, String word){
+    private void assignLettersDown(Grid grid, String word){
         String[] letters = word.split("");
         grid.letter = letters[0];
 
@@ -140,7 +159,7 @@ public class CrosswordPuzzle extends Grid{
         }
     }
 
-    void getAcrossQuestionsAndAnswers(String path){
+    private void getAcrossQuestionsAndAnswers(String path){
         try {
             File acrossFile = new File(path);
             BufferedReader reader = new BufferedReader(new FileReader(acrossFile));
@@ -154,7 +173,7 @@ public class CrosswordPuzzle extends Grid{
         }
     }
 
-    void getDownQuestionsAndAnswers(String path){
+    private void getDownQuestionsAndAnswers(String path){
         try {
             File downFile = new File(path);
             BufferedReader reader = new BufferedReader(new FileReader(downFile));
@@ -168,7 +187,7 @@ public class CrosswordPuzzle extends Grid{
         }
     }
 
-    void addQuestionAndAnswer(String lineToParse, HashMap<String, String> questionStore, HashMap<String, String> solutionStore){
+    private void addQuestionAndAnswer(String lineToParse, HashMap<String, String> questionStore, HashMap<String, String> solutionStore){
         String[] tokens = lineToParse.split("/");
         questionStore.put(tokens[0], tokens[1]);
         solutionStore.put(tokens[0], tokens[2]);
